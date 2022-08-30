@@ -180,6 +180,14 @@ Editor.defaultConfig = {
                     'active'
                 ]
             },
+            // Allow mark-up divs
+            {
+                name: 'div',
+                classes: [
+                    'row',
+                    /^col\-(xs|sm|md|lg)\-((pull|push)\-)?([1-9]|(1[0-2]))$/
+                ]
+            },
             // Allow iframes for video embeds from YouTube (NoCookie) and Vimeo (as per the CSP).
             {
                 name: 'iframe',
