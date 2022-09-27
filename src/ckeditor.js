@@ -188,6 +188,18 @@ Editor.defaultConfig = {
                     /^col\-(xs|sm|md|lg)\-((pull|push)\-)?([1-9]|(1[0-2]))$/
                 ]
             },
+            // Allow Bootstrap table styles
+            {
+                name: 'table',
+                classes: [
+                    'table',
+                    'table-striped',
+                    'table-documents',
+                    'table-bordered',
+                    'table-condensed',
+                    'table-hover'
+                ]
+            },
             // Allow iframes for video embeds from YouTube (NoCookie) and Vimeo (as per the CSP).
             {
                 name: 'iframe',
