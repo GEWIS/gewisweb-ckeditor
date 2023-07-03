@@ -10,7 +10,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const { bundler, styles } = require('@ckeditor/ckeditor5-dev-utils');
-const CKEditorWebpackPlugin = require('@ckeditor/ckeditor5-dev-webpack-plugin');
+const { CKEditorTranslationsPlugin } = require('@ckeditor/ckeditor5-dev-translations');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
@@ -26,7 +26,7 @@ module.exports = {
     },
 
     plugins: [
-        new CKEditorWebpackPlugin({
+        new CKEditorTranslationsPlugin({
             language: 'en',
             additionalLanguages: ['nl']
         }),
@@ -40,18 +40,18 @@ module.exports = {
     ],
 
     optimization: {
-		minimizer: [
-			new TerserPlugin( {
-				terserOptions: {
-					output: {
-						// Preserve CKEditor 5 license comments.
-						comments: /^!/
-					}
-				},
-				extractComments: false
-			} )
-		]
-	},
+        minimizer: [
+            new TerserPlugin( {
+                terserOptions: {
+                    output: {
+                        // Preserve CKEditor 5 license comments.
+                        comments: /^!/
+                    }
+                },
+                extractComments: false
+            } )
+        ]
+    },
 
     module: {
         rules: [
