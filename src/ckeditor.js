@@ -149,11 +149,15 @@ Editor.defaultConfig = {
     },
     htmlSupport: {
         allow: [
-            // Allow usage of details and summaries.
+            // Allow usage of <details and <summary>.
             {
                 name: /^(details|summary)$/
             },
-            // Allow specific ul and li classes for the Bootstrap navbars.
+            // Allow usage of <small> inline elements.
+            {
+                name: 'small'
+            },
+            // Allow specific <ul> and <li> classes for the Bootstrap navbars.
             {
                 name: 'ul',
                 classes: [
@@ -180,7 +184,7 @@ Editor.defaultConfig = {
                     'active'
                 ]
             },
-            // Allow mark-up divs
+            // Allow mark-up <div>s.
             {
                 name: 'div',
                 classes: [
@@ -188,7 +192,7 @@ Editor.defaultConfig = {
                     /^col\-(xs|sm|md|lg)\-((pull|push)\-)?([1-9]|(1[0-2]))$/
                 ]
             },
-            // Allow Bootstrap table styles
+            // Allow Bootstrap <table> styles.
             {
                 name: 'table',
                 classes: [
