@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>GEDITOR - Super Build Playground</title>
+        <link rel="stylesheet" href="https://gewis.nl/css/gewis-theme.css">
+        <link rel="stylesheet" href="./dist/styles.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>GEDITOR - Super Build Playground</h1>
+                </div>
+                <div class="col-md-12">
+                    <div id="full-editor">
+                        <h2>Sample</h2>
+
+                        <p>This is an instance of the full editor build for GEWISWEB.</p>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="markdown-editor">
+## Sample
+
+This is an instance of the [GitHub Flavoured Markdown](https://github.github.com/gfm/) build for GEWISWEB.
+                    </div>
+                    <pre id="markdown-output">
+
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <script src="./dist/ckeditor.js"></script>
+        <script>
+            GEDITOR.FullEditor
+                .create( document.querySelector( '#full-editor' ) )
+                .catch( err => {
+                    console.error( err.stack );
+                } );
+
+            GEDITOR.MarkdownEditor
+                .create( document.querySelector( '#markdown-editor' ) )
+                .then( editor => {
+                    editor.model.document.on( 'change:data', () => {
+                        document.querySelector( '#markdown-output' ).textContent = editor.getData();
+                    } );
+                } )
+                .catch( err => {
+                    console.error( err.stack );
+                } );
+        </script>
+    </body>
+</html>

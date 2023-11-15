@@ -15,10 +15,10 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
-    entry: path.resolve(__dirname, 'src', 'ckeditor.js'),
+    entry: path.resolve(__dirname, 'src', 'ckeditors.js'),
 
     output: {
-        library: 'ClassicEditor',
+        library: 'GEDITOR',
         path: path.resolve(__dirname, 'dist'),
         filename: 'ckeditor.js',
         libraryTarget: 'umd',
