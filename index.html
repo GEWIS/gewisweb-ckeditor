@@ -33,11 +33,30 @@ This is an instance of the [GitHub Flavoured Markdown](https://github.github.com
                     </pre>
                 </div>
             </div>
+            <br>
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="markdown-company-editor">
+## Sample
+
+This is an instance of the [GitHub Flavoured Markdown](https://github.github.com/gfm/) build for companies for GEWISWEB.
+
+![example image](https://upload.wikimedia.org/wikipedia/commons/1/1a/The_Shitterton_Sign.jpg)
+                    </div>
+                    <pre id="markdown-company-output">
+
+                    </pre>
+                </div>
+            </div>
         </div>
         <script src="./dist/ckeditor.js"></script>
         <script>
             GEDITOR.FullEditor
-                .create( document.querySelector( '#full-editor' ) )
+                .create( document.querySelector( '#full-editor' ) , {
+                    simpleUpload: {
+                        uploadUrl: '/some/page/upload'
+                    }
+                } )
                 .catch( err => {
                     console.error( err.stack );
                 } );
@@ -47,6 +66,21 @@ This is an instance of the [GitHub Flavoured Markdown](https://github.github.com
                 .then( editor => {
                     editor.model.document.on( 'change:data', () => {
                         document.querySelector( '#markdown-output' ).textContent = editor.getData();
+                    } );
+                } )
+                .catch( err => {
+                    console.error( err.stack );
+                } );
+
+            GEDITOR.MarkdownCompanyEditor
+                .create( document.querySelector( '#markdown-company-editor' ) , {
+                    simpleUpload: {
+                        uploadUrl: '/some/page/upload'
+                    }
+                } )
+                .then( editor => {
+                    editor.model.document.on( 'change:data', () => {
+                        document.querySelector( '#markdown-company-output' ).textContent = editor.getData();
                     } );
                 } )
                 .catch( err => {

@@ -45,6 +45,7 @@ import Underline from '@ckeditor/ckeditor5-basic-styles/src/underline';
 
 class FullEditor extends ClassicEditor {}
 class MarkdownEditor extends ClassicEditor {}
+class MarkdownCompanyEditor extends MarkdownEditor {}
 
 // Plugins to include in the FullEditor build.
 FullEditor.builtinPlugins = [
@@ -114,6 +115,16 @@ MarkdownEditor.builtinPlugins = [
     TableCaption,
     TableToolbar
 ];
+
+// Plugins to include in the MarkdownCompanyEditor build.
+MarkdownCompanyEditor.builtinPlugins = [
+    ...MarkdownCompanyEditor.builtinPlugins,
+    Image,
+    ImageToolbar,
+    ImageUpload,
+    MediaEmbed,
+    SimpleUploadAdapter,
+]
 
 // FullEditor configuration.
 FullEditor.defaultConfig = {
@@ -281,7 +292,7 @@ FullEditor.defaultConfig = {
                     const id = match[1];
 
                     return (
-                        '<div style="position: relative; padding-bottom: 100%; height: 0; padding-bottom: 56.2493%;">' +
+                        '<div style="position: relative; height: 0; padding-bottom: 56.2493%;">' +
                             `<iframe src="https://player.vimeo.com/video/${ id }" ` +
                                 'style="position: absolute; width: 100%; height: 100%; top: 0; left: 0;" ' +
                                 'frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen>' +
@@ -302,7 +313,7 @@ FullEditor.defaultConfig = {
                     const id = match[1];
 
                     return (
-                        '<div style="position: relative; padding-bottom: 100%; height: 0; padding-bottom: 56.2493%;">' +
+                        '<div style="position: relative; height: 0; padding-bottom: 56.2493%;">' +
                             `<iframe src="https://www.youtube-nocookie.com/embed/${ id }" ` +
                                 'style="position: absolute; width: 100%; height: 100%; top: 0; left: 0;" ' +
                                 'frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>' +
@@ -324,11 +335,11 @@ FullEditor.defaultConfig = {
             'twitter'
         ]
     },
-    simpleUpload: {
-        uploadUrl: '/admin/page/upload'
-        // Unfortunately, by using the URLHelper, CKEditor thinks that there is no URL. The ordering of the scripts does not appear to influence this.
-        // uploadUrl: URLHelper.url('admin_page/upload')
-    },
+    // Unfortunately, by using the URLHelper, CKEditor thinks that there is no URL. However, this can be overridden when
+    // calling `.create()` on the editor.
+    // simpleUpload: {
+    //     uploadUrl: URLHelper.url('/some/page/upload')
+    // },
     table: {
         contentToolbar: [
             'tableColumn',
@@ -402,8 +413,132 @@ MarkdownEditor.defaultConfig = {
     }
 };
 
+// MarkdownCompanyEditor configuration.
+MarkdownCompanyEditor.defaultConfig = {
+    toolbar: {
+        items: [
+            'heading',
+            '|',
+            'bold',
+            'italic',
+            'strikethrough',
+            'removeFormat',
+            '|',
+            'bulletedList',
+            'numberedList',
+            'horizontalLine',
+            '|',
+            'link',
+            'imageUpload',
+            'blockQuote',
+            'insertTable',
+            'mediaEmbed',
+            'code',
+            'codeBlock',
+            '|',
+            'findAndReplace',
+            'undo',
+            'redo',
+            '|',
+            'sourceEditing'
+        ],
+        shouldNotGroupWhenFull: true
+    },
+    // The language must be kept in sync with the webpack.config.js build configuration.
+    language: 'en',
+    htmlSupport: {
+        allow: [
+            // Allow Bootstrap <table> styles.
+            {
+                name: 'table',
+                classes: [
+                    'table',
+                    'table-striped',
+                    'table-documents',
+                    'table-bordered',
+                    'table-condensed',
+                    'table-hover'
+                ]
+            },
+        ],
+        disallow: [
+            {
+                name: 'iframe'
+            },
+            {
+                name: 'img'
+            }
+        ]
+    },
+    image: {
+        toolbar: [
+            'imageTextAlternative'
+        ]
+    },
+    mediaEmbed: {
+        // Override the default providers.
+        providers: [
+            {
+                name: 'vimeo',
+                url: [
+                    /^vimeo\.com\/(\d+)/,
+                    /^vimeo\.com\/[^/]+\/[^/]+\/video\/(\d+)/,
+                    /^vimeo\.com\/album\/[^/]+\/video\/(\d+)/,
+                    /^vimeo\.com\/channels\/[^/]+\/(\d+)/,
+                    /^vimeo\.com\/groups\/[^/]+\/videos\/(\d+)/,
+                    /^vimeo\.com\/ondemand\/[^/]+\/(\d+)/,
+                    /^player\.vimeo\.com\/video\/(\d+)/
+                ],
+                html: match => {
+                    const id = match[1];
+
+                    return (`https://player.vimeo.com/video/${ id }`);
+                }
+            },
+            {
+                name: 'youtube',
+                url: [
+                    /^(?:m\.)?youtube\.com\/watch\?v=([\w-]+)/,
+                    /^(?:m\.)?youtube\.com\/v\/([\w-]+)/,
+                    /^youtube\.com\/embed\/([\w-]+)/,
+                    /^youtu\.be\/([\w-]+)/
+                ],
+                html: match => {
+                    const id = match[1];
+
+                    return (`https://www.youtube-nocookie.com/embed/${ id }`);
+                }
+            }
+        ],
+        previewsInData: true,
+        // Remove content providers which are not supported.
+        removeProviders: [
+            'dailymotion',
+            'facebook',
+            'flickr',
+            'googleMaps',
+            'instagram',
+            'spotify',
+            'twitter'
+        ]
+    },
+    // Unfortunately, by using the URLHelper, CKEditor thinks that there is no URL. However, this can be overridden when
+    // calling `.create()` on the editor.
+    // simpleUpload: {
+    //     uploadUrl: URLHelper.url('/some/page/upload')
+    // },
+    table: {
+        contentToolbar: [
+            'tableColumn',
+            'tableRow',
+            'mergeTableCells'
+        ]
+    }
+};
+
 // Export all editors.
 export default {
     FullEditor,
-    MarkdownEditor
+    MarkdownEditor,
+    MarkdownCompanyEditor
 };
